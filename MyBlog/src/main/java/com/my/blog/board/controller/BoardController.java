@@ -17,13 +17,28 @@ public class BoardController {
 	@Resource(name = "BoardService")
 	private BoardService boardService;
 	
+	
 	@RequestMapping("/test")
 	private String test(Model model) {
+		try {
+			List<BoardVO> boardList = boardService.selectBoardList();
+			model.addAttribute("boardList",boardList);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		List<BoardVO> boardList = boardService.selectBoardList();
+		return "index.tiles";
+	}
+	
+	@RequestMapping("/admin/test")
+	private String test2(Model model) {
+		try {
+			List<BoardVO> boardList = boardService.selectBoardList();
+			model.addAttribute("boardList",boardList);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		model.addAttribute("boardList",boardList);
-		
-		return "index";
+		return "index.tiles";
 	}
 }

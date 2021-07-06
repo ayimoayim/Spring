@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<!-- template에 최상위 페이지명 -->
+    <definition name="base" template="/WEB-INF/views/layout/layout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
+	
+	<definition name="*.tiles" extends="base">
+		<!-- 와일드 카드 * 이 {1}에 대입됨 -->
+		<!-- 즉 컨트롤러에서 index.tiles로 리턴하면 index가 {1}로 치환되서 index.jsp가 보여짐 -->
+		<!-- *.tiles는 임의로 설정 가능 즉 *.daum로 가능 혹은 *.spring등 단 jsp는 제외 -->
+		<put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+		<!--만약 /WEB-INF/밑에 jsp가 있다면 <put-attribute name="body" value="/WEB-INF/{1}.jsp"/> 
+			컨트롤러 클래스에서는 return "/WEB-INF/Board/List.tiles"인경우 /WEB-INF생략 -->
+	</definition>
+	
+	<!-- /*/*.tiles 는 불가 즉 *앞에 /를 붙이지 않는다 -->
+	<!-- ex) return "login/Login.tiles"; 가 반환되면 {1} 에는 login, {2} 에는 Login, .tiles 는 .jsp 로 -->
+	<definition name="*/*.tiles" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+
+	<definition name="*/*/*.tiles" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+	</definition>
+	
+	<definition name="*/*/*/*.tiles" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+    <!-- 더 추가할 내용 있으면 추가 -->
+</tiles-definitions>
