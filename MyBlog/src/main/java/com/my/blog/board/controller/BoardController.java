@@ -27,7 +27,25 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
-		return "index.tiles";
+		return "index";
+	}
+	
+	@RequestMapping("/post")
+	private String post(Model model) {
+		try {
+			List<BoardVO> boardList = boardService.selectBoardList();
+			model.addAttribute("boardList",boardList);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "board/index.tiles";
+	}
+	
+	@RequestMapping("/post/info")
+	private String postInfo(Model model) {
+		
+		return "board/article-info";
 	}
 	
 	@RequestMapping("/admin/test")
@@ -39,6 +57,6 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
-		return "index.tiles";
+		return "index";
 	}
 }

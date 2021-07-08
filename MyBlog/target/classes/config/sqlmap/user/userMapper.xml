@@ -8,10 +8,13 @@
 			email AS id,
 			password AS pw,
 			name,
+			role,
 			IF(type = 0, 'true', 'false') AS ENABLED 
 		FROM
-			user
+			user usr, user_role role
 		WHERE
+			usr.regnum = role.user_no
+		AND
 			email = #{id}
 	</select>
 </mapper>

@@ -14,12 +14,13 @@ public class CustomUserDetails implements UserDetails{
 	private String id;
 	private String pw;
 	private String name;
+	private String role;
 	private Boolean ENABLED;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		 ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-		 auth.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		 auth.add(new SimpleGrantedAuthority(role));
 		 return auth;
 	}
 
@@ -73,6 +74,14 @@ public class CustomUserDetails implements UserDetails{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }

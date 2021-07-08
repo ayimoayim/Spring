@@ -501,16 +501,15 @@ th:last-child, td:last-child {
 /* ------------------------------------------------------------------- 
  * ## spacing 
  * ------------------------------------------------------------------- */
+/*
 button, .btn {
     margin-bottom: 1.6rem;
 }
-
+*/
 fieldset {
     margin-bottom: 1.6rem;
 }
 
-input, 
-textarea, 
 select, 
 pre, 
 blockquote, 
@@ -722,6 +721,7 @@ fieldset {
     border: none;
 }
 
+/*
 input[type="email"], 
 input[type="number"], 
 input[type="search"], 
@@ -747,7 +747,7 @@ select {
     transition: all .3s ease-in-out;
     border-radius: 4px;
 }
-
+*/
 .ss-custom-select {
     position: relative;
     padding: 0;
@@ -796,7 +796,7 @@ select {
 textarea {
     min-height: 25.6rem;
 }
-
+/*
 input[type="email"]:focus, 
 input[type="number"]:focus, 
 input[type="search"]:focus, 
@@ -811,7 +811,7 @@ select:focus {
     box-shadow: 0 0 5px #6ba441;
     border: 1px solid #6ba441;
 }
-
+*/
 label, legend {
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
@@ -821,25 +821,25 @@ label, legend {
     color: #272727;
     display: block;
 }
-
+/*
 input[type="checkbox"], input[type="radio"] {
     display: inline;
 }
-
+*/
 label>.label-text {
     display: inline-block;
     margin-left: 1rem;
     font-family: "Open Sans", sans-serif;
     line-height: inherit;
 }
-
+/*
 label>input[type="checkbox"], 
 label>input[type="radio"] {
     margin: 0;
     position: relative;
     top: .2rem;
 }
-
+*/
 /* ------------------------------------------------------------------- 
  * ## style placeholder text
  * ------------------------------------------------------------------- */
@@ -870,6 +870,7 @@ label>input[type="radio"] {
 /* ------------------------------------------------------------------- 
  * ## change autocomplete styles in chrome
  * ------------------------------------------------------------------- */
+/*
 input:-webkit-autofill, 
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus input:-webkit-autofill, 
@@ -882,13 +883,14 @@ select:-webkit-autofill:focus {
     -webkit-transition: background-color 5000s ease-in-out 0s;
     transition: background-color 5000s ease-in-out 0s;
 }
-
+*/
 
 
 /* ===================================================================
  * # buttons 
  *
  * ------------------------------------------------------------------- */
+/*
 .btn, 
 button, 
 input[type="submit"], 
@@ -917,7 +919,8 @@ input[type="button"] {
     background-color: #d3d3d3;
     border: 0.2rem solid #d3d3d3;
 }
-
+*/
+/*
 .btn:hover, 
 button:hover, 
 input[type="submit"]:hover, 
@@ -932,9 +935,11 @@ input[type="button"]:focus {
     color: #ffffff;
     outline: 0;
 }
+*/
 
 /* button primary
  * ------------------------------------------------- */
+/*
 .btn.btn--primary, 
 button.btn--primary, 
 input[type="submit"].btn--primary, 
@@ -958,9 +963,10 @@ input[type="button"].btn--primary:focus {
     background: #000000;
     border-color: #000000;
 }
-
+*/
 /* button modifiers
  * ------------------------------------------------- */
+/*
 .btn.h-full-width, 
 button.h-full-width {
     width: 100%;
@@ -1004,7 +1010,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
     border: 0;
     padding: 0;
 }
-
+*/
 
 
 /* =================================================================== 

@@ -19,23 +19,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String id = (String)authentication.getPrincipal();
 		String password = (String)authentication.getCredentials();
-		
-		UserDetails userDetails = null;
-		try {
-			userDetails = userDetailService.loadUserByUsername(id);
-			if(userDetails == null || !passwordCheck(password,userDetails.getPassword()) || !userDetails.isEnabled()) {
-				throw new BadCredentialsException("아이디 또는 비밀번호를 확인해주세요.");
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
+		UserDetails userDetails  = userDetailService.loadUserByUsername(id);
+		if(userDetails == null || !passwordCheck(password,userDetails.getPassword()) || !userDetails.isEnabled()) {
+			throw new BadCredentialsException("아이디 또는 비밀번호를 확인해주세요.");
 		}
-
 		return new UsernamePasswordAuthenticationToken(id,password,userDetails.getAuthorities());
 	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return authentication.equals(UsernamePasswordAuthenticationToken.class);
+		return true;
 	}
 	
 	public boolean passwordCheck(String password,String userPassword) {

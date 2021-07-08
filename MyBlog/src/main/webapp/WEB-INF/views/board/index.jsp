@@ -3,19 +3,17 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-   		<meta name="description" content="">
-   		<meta name="author" content="">	
+	  		<meta name="description" content="">
+	  		<meta name="author" content="">	
 		<!-- mobile specific metas -->
-   		<meta name="viewport" content="width=device-width, initial-scale=1">
-   		
+	  		<meta name="viewport" content="width=device-width, initial-scale=1">
+	  		
 		<title>Insert title here</title>
 		<%@ include file="/WEB-INF/views/layout/common.jsp"%>
 		
 	</head>
 	<body id="top">
-		
 		<%@ include file="/WEB-INF/views/layout/header.jsp"%>
-	
 		<!-- Content -->
 		<div class="s-content">
 			<div class="row">
@@ -35,11 +33,21 @@
 		                          	</ul>
 		                      	</div>
 		                  	</header>
+		                  	  	
 		                  	<div class="entry__content">
 		                     	<p>
 		                      		${boardVO.content}
 		                      	</p>
-		                  	</div> 
+		                  	</div>
+		                  	<p class="entry__tags">
+		                        <span>Tagged in </span>:
+		                        <a href="#0">orci</a>, <a href="#0">lectus</a>, <a href="#0">varius</a>, <a href="#0">turpis</a>
+		                    </p>
+		
+		                    <ul class="entry__post-nav h-group">
+		                        <li class="prev"><a rel="prev" href="#0"><strong class="h6">Previous Article</strong> Duis Sed Odio Sit Amet Nibh Vulputate</a></li>
+		                        <li class="next"><a rel="next" href="#0"><strong class="h6">Next Article</strong> Morbi Elit Consequat Ipsum</a></li>
+		                    </ul> 
 		           		</article> 
 		           		<!-- end entry -->
 					</c:forEach>
@@ -106,7 +114,6 @@
 		    </div> <!-- end row -->
 		
 		</div> <!-- end content-wrap -->
-		
 		<%@ include file="/WEB-INF/views/layout/footer.jsp"%>
 	</body>
 </html>
