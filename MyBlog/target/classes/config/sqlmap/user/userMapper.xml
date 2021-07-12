@@ -4,16 +4,16 @@
 <mapper namespace="com.my.blog.user.dao.UserDAO">
 	<select id="selectLoginUser" resultType="com.my.blog.security.CustomUserDetails">
 		SELECT
-			regnum,
-			email AS id,
-			password AS pw,
-			name,
-			role,
-			IF(type = 0, 'true', 'false') AS ENABLED 
+			usr.REG_NO,
+			EMAIL AS id,
+			PASSWORD AS pw,
+			NAME,
+			ROLE,
+			IF(usr.DEL_FL = 0, 'true', 'false') AS ENABLED 
 		FROM
 			user usr, user_role role
 		WHERE
-			usr.regnum = role.user_no
+			usr.REG_NO = role.USER_NO
 		AND
 			email = #{id}
 	</select>

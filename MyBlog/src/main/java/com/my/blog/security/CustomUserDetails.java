@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class CustomUserDetails implements UserDetails{
 
 	private static final long serialVersionUID = 1L;
-	private String regnum;
+	private String reg_no;
 	private String id;
 	private String pw;
 	private String name;
@@ -60,12 +60,12 @@ public class CustomUserDetails implements UserDetails{
 		return ENABLED;
 	}
 	
-	public String getRegnum() {
-		return regnum;
+	public String getReg_no() {
+		return reg_no;
 	}
 
-	public void setRegnum(String regnum) {
-		this.regnum = regnum;
+	public void setReg_no(String reg_no) {
+		this.reg_no = reg_no;
 	}
 
 	public String getName() {

@@ -28,7 +28,7 @@
 		                      	</h2>
 		                   		<div class="entry__meta">
 		                      		<ul>
-		                          		<fmt:formatDate var="date" value="${boardVO.regdate}" pattern="yyyy-MM-dd"/>
+		                          		<fmt:formatDate var="date" value="${boardVO.reg_dt}" pattern="yyyy-MM-dd"/>
 		                              	<li>${date}</li>
 		                              	<li><a href="#" title="" rel="category tag">Ghost</a></li>
 		                              	<!-- <li>John Doe</li> -->

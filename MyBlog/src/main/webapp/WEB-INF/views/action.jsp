@@ -10,7 +10,15 @@
    		
 		<title>Insert title here</title>
 		<%@ include file="/WEB-INF/views/layout/common.jsp"%>
-		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	  	<script type="text/javascript">
+			$(document).ready(function(){
+				if(""!="${msg}"){
+					alert("${msg}");
+				}
+				location.href = "${url}";
+			});
+	  	</script>
 	</head>
 	<body id="top">
 		
@@ -20,28 +28,7 @@
 		<div class="s-content">
 			<div class="row">
 		    	<div id="main" class="s-content__main large-8 column">
-					<c:forEach var="boardVO" items="${boardList}">
-						<article class="entry">
-		                	<header class="entry__header">
-		                    	<h2 class="entry__title h1">
-		                        	<a href="/post/info?reg_no=${boardVO.reg_no}" title="">${boardVO.title}</a>
-		                      	</h2>
-		                   		<div class="entry__meta">
-		                      		<ul>
-		                          		<fmt:formatDate var="date" value="${boardVO.reg_dt}" pattern="yyyy-MM-dd"/>
-		                              	<li>${date}</li>
-		                              	<li>${boardVO.name}</li>
-		                          	</ul>
-		                      	</div>
-		                  	</header>
-		                  	<div class="entry__content">
-		                     	<p>
-		                      		${boardVO.content}
-		                      	</p>
-		                  	</div> 
-		           		</article> 
-		           		<!-- end entry -->
-					</c:forEach>
+					
 		       	</div> <!-- end main -->
 		
 		        <div id="sidebar" class="s-content__sidebar large-4 column">

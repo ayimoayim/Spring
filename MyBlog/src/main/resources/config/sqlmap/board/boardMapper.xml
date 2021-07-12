@@ -2,13 +2,60 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.my.blog.board.dao.BoardDAO">
-	<select id="selectBoardList" resultType="com.my.blog.board.vo.BoardVO">
+	<select id="selectBoardList" parameterType="com.my.blog.board.vo.BoardVO" resultType="com.my.blog.board.vo.BoardVO">
 		SELECT
-			REGNUM,
-			REGDATE,
+			bo.REG_NO,
+			bo.REG_DT,
 			TITLE,
-			CONTENT
+			CONTENT,
+			usr.NAME AS name
 		FROM
-			BOARD
+			BOARD bo, user usr
+		WHERE
+			bo.USER_NO = usr.REG_NO
+		AND
+			bo.DEL_FL != 9
 	</select>
+	
+	<select id="selectBoardInfo" parameterType="com.my.blog.board.vo.BoardVO" resultType="com.my.blog.board.vo.BoardVO">
+		SELECT
+			bo.REG_NO,
+			bo.REG_DT,
+			TITLE,
+			CONTENT,
+			usr.REG_NO AS user_no,
+			usr.NAME AS name
+		FROM
+			BOARD bo, user usr
+		WHERE
+			bo.USER_NO = usr.REG_NO
+		AND
+			bo.REG_NO = #{reg_no}
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.my.blog.board.vo.BoardVO">
+		INSERT INTO BOARD(USER_NO, TITLE, CONTENT, PUBLIC_FL, DEL_FL)
+		VALUES 
+			(#{user_no},#{title},#{content},#{public_fl},0)
+	</insert>
+	
+	<update id="updateBoard" parameterType="com.my.blog.board.vo.BoardVO">
+		UPDATE
+			BOARD
+		SET
+			TITLE = #{title},
+			CONTENT = #{content},
+			EDIT_DT = NOW()
+		WHERE
+			REG_NO = #{reg_no}
+	</update>
+	
+	<update id="deleteBoard" parameterType="com.my.blog.board.vo.BoardVO">
+		UPDATE
+			BOARD
+		SET
+			DEL_FL = 9
+		WHERE
+			REG_NO = #{reg_no}
+	</update>
 </mapper>

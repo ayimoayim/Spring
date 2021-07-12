@@ -3,33 +3,43 @@ package com.my.blog.board.vo;
 import java.sql.Timestamp;
 
 public class BoardVO {
-	private String regnum;
-	private Timestamp regdate;
-	private String userId;
+	private String reg_no;
+	private Timestamp reg_dt;
+	private String user_no;
+	private String name;
 	private String title;
 	private String content;
 	private String categoryId;
 	private String views_cnt;
 	private String recommend_cnt;
-	private String type;
+	private String public_fl;
+	private String edit_dt;
+	private String del_fl;
+
 	
-	public String getRegnum() {
-		return regnum;
+	public String getReg_no() {
+		return reg_no;
 	}
-	public void setRegnum(String regnum) {
-		this.regnum = regnum;
+	public void setReg_no(String reg_no) {
+		this.reg_no = reg_no;
 	}
-	public Timestamp getRegdate() {
-		return regdate;
+	public Timestamp getReg_dt() {
+		return reg_dt;
 	}
-	public void setRegdate(Timestamp regdate) {
-		this.regdate = regdate;
+	public void setReg_dt(Timestamp reg_dt) {
+		this.reg_dt = reg_dt;
 	}
-	public String getUserId() {
-		return userId;
+	public String getUser_no() {
+		return user_no;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUser_no(String user_no) {
+		this.user_no = user_no;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getTitle() {
 		return title;
@@ -61,10 +71,22 @@ public class BoardVO {
 	public void setRecommend_cnt(String recommend_cnt) {
 		this.recommend_cnt = recommend_cnt;
 	}
-	public String getType() {
-		return type;
+	public String getPublic_fl() {
+		return public_fl;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setPublic_fl(String public_fl) {
+		this.public_fl = public_fl;
+	}
+	public String getEdit_dt() {
+		return edit_dt;
+	}
+	public void setEdit_dt(String edit_dt) {
+		this.edit_dt = edit_dt;
+	}
+	public String getDel_fl() {
+		return del_fl;
+	}
+	public void setDel_fl(String del_fl) {
+		this.del_fl = del_fl;
 	}
 }

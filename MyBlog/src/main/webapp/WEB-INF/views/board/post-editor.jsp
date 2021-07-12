@@ -52,19 +52,40 @@
 	</style>
 	<body id="top">
 		<%@ include file="/WEB-INF/views/layout/header.jsp"%>
-		<!-- Content -->
-		<div class="s-content">
-			<form id="frm" name="frm">
-				<div class="row">
-					<input type="text" name="title" placeholder="제목을 입력하세요" class="input-title"> 
-
-					<textarea id="sample">Hi</textarea>
-					<div style="float:left;">
-						<button onclick="insertQa();" type="button" class="button button-success">등록</button>
-					</div>
-			    </div> <!-- end row -->
-			</form>
-		</div> <!-- end content-wrap -->
+		<c:if test="${viewType eq 'postInsert'}">
+			<!-- Content -->
+			<div class="s-content">
+				<form id="frm" name="frm" method="POST" action="/admin/post/insert">
+					<div class="row">
+						<input type="text" name="title" placeholder="제목을 입력하세요" class="input-title"> 
+						<input type="hidden" name="reg_no" value="${boardInfo.reg_no }"> 
+	
+						<textarea id="sample"></textarea>
+						<div>
+							<button onclick="upsertBoard();" type="button" class="button button-success">등록</button>
+						</div>
+				    </div> <!-- end row -->
+				</form>
+			</div> <!-- end content-wrap -->
+		</c:if>
+		
+		<c:if test="${viewType eq 'postUpdate'}">
+			<!-- Content -->
+			<div class="s-content">
+				<form id="frm" name="frm" method="POST" action="/admin/post/update">
+					<div class="row">
+						<input type="text" name="title" placeholder="제목을 입력하세요." class="input-title" value="${boardInfo.title }"> 
+						<input type="hidden" name="reg_no" value="${boardInfo.reg_no }"> 
+						
+						<textarea id="sample">${boardInfo.content }</textarea>
+						<div>
+							<button onclick="upsertBoard();" type="button" class="button button-success">수정</button>
+						</div>
+				    </div> <!-- end row -->
+				</form>
+			</div> <!-- end content-wrap -->
+		</c:if>
+		
 		<%@ include file="/WEB-INF/views/layout/footer.jsp"%>
 	</body>
 	<script>
@@ -77,6 +98,7 @@
 		        height: '450px',
 		        popupDisplay: 'full',
 		        charCounter: true,
+		        placeholder: '내용을 입력하세요.',
 		        charCounterLabel: 'Characters :',
 			    lang: SUNEDITOR_LANG['ko'],
 			    buttonList: [
@@ -94,12 +116,18 @@
 		
 		sun_create();
 		
-		insertQa = function () {
-		 	var form = $("#frm");
-		  	//form.attr("action", "/u-old-report");
-		  	//form.attr("method", "GET");
-		  	//form.submit();
-			console.log(suneditor.getContents());
+		upsertBoard = function () {
+			var form = $('#frm');
+			var input = document.createElement('input');
+			var content = suneditor.getContents();
+			
+			input.setAttribute("type", "hidden"); 
+			input.setAttribute("name", "content"); 
+			input.setAttribute("value", content);
+			
+			form.append(input);
+			
+			form.submit();
 		}
 	</script>
 </html>

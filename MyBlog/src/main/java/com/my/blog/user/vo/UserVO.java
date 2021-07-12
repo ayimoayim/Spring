@@ -3,18 +3,19 @@ package com.my.blog.user.vo;
 import java.sql.Timestamp;
 
 public class UserVO {
-	private String regnum;
+	private String reg_no;
 	private Timestamp date;
 	private String email;
 	private String passowrd;
 	private String name;
-	private Timestamp editDate;
+	private Timestamp edit_dt;
+	private String del_fl;
 	
-	public String getRegnum() {
-		return regnum;
+	public String getReg_no() {
+		return reg_no;
 	}
-	public void setRegnum(String regnum) {
-		this.regnum = regnum;
+	public void setReg_no(String reg_no) {
+		this.reg_no = reg_no;
 	}
 	public Timestamp getDate() {
 		return date;
@@ -40,12 +41,17 @@ public class UserVO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Timestamp getEditDate() {
-		return editDate;
+	public Timestamp getEdit_dt() {
+		return edit_dt;
 	}
-	public void setEditDate(Timestamp editDate) {
-		this.editDate = editDate;
+	public void setEdit_dt(Timestamp edit_dt) {
+		this.edit_dt = edit_dt;
 	}
-	
+	public String getDel_fl() {
+		return del_fl;
+	}
+	public void setDel_fl(String del_fl) {
+		this.del_fl = del_fl;
+	}
 	
 }

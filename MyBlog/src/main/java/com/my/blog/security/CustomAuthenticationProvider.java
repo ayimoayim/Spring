@@ -19,11 +19,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String id = (String)authentication.getPrincipal();
 		String password = (String)authentication.getCredentials();
-		UserDetails userDetails  = userDetailService.loadUserByUsername(id);
+		CustomUserDetails userDetails  = (CustomUserDetails) userDetailService.loadUserByUsername(id);
 		if(userDetails == null || !passwordCheck(password,userDetails.getPassword()) || !userDetails.isEnabled()) {
 			throw new BadCredentialsException("아이디 또는 비밀번호를 확인해주세요.");
 		}
-		return new UsernamePasswordAuthenticationToken(id,password,userDetails.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
 	}
 
 	@Override
