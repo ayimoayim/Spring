@@ -1,19 +1,25 @@
 package com.my.blog.board.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.my.blog.board.service.BoardService;
+import com.my.blog.board.service.CommentService;
 import com.my.blog.board.vo.BoardVO;
+import com.my.blog.board.vo.CommentVO;
 import com.my.blog.security.CustomUserDetails;
 
 @Controller
@@ -22,6 +28,8 @@ public class BoardController {
 	@Resource(name = "BoardService")
 	private BoardService boardService;
 	
+	@Resource(name = "CommentService")
+	private CommentService commentService;
 	
 	@RequestMapping("/post")
 	private String post(Model model) {
@@ -40,12 +48,49 @@ public class BoardController {
 		
 		try {
 			BoardVO board = boardService.selectBoardInfo(boardVO);
+			
+			List<CommentVO> commentVOs = commentService.selectCommentList();
+			
 			model.addAttribute("boardInfo",board);
+			model.addAttribute("commentList",commentVOs);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return "board/post-info";
+	}
+	
+	@RequestMapping(value = "/comment/insert", method = {RequestMethod.POST})
+	@ResponseBody
+	private List<CommentVO> commentInsert(HttpServletRequest request, HttpServletResponse response, Model model, CommentVO commentVO) {
+		
+		String ip = request.getHeader("X-FORWARDED-FOR");
+		if(ip == null) ip = request.getRemoteAddr();
+		
+		
+		if(SecurityContextHolder.getContext().getAuthentication() != null
+			&& SecurityContextHolder.getContext().getAuthentication().isAuthenticated() 
+			&& !(SecurityContextHolder.getContext().getAuthentication() 
+			instanceof AnonymousAuthenticationToken) ) {
+			
+			CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String userNo = customUserDetails.getReg_no();
+			commentVO.setUser_no(userNo);
+		}
+		
+		if("1".equals(commentVO.getDepth())) {
+			commentVO.setSeq("1");
+		}else {
+			int seq = commentService.selectCommentSeq(commentVO) + 1;
+			commentVO.setSeq(String.valueOf(seq));
+		}
+		commentVO.setIp(ip);
+		commentVO.setPublic_fl("0");
+		commentService.insertComment(commentVO);
+		
+		List<CommentVO> commentVOs = commentService.selectCommentList();
+
+		return commentVOs;
 	}
 	
 	@RequestMapping(value = "/admin/post/editor", method = {RequestMethod.GET})

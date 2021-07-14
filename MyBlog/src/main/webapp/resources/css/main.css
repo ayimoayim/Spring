@@ -510,6 +510,7 @@ fieldset {
     margin-bottom: 1.6rem;
 }
 
+/*
 select, 
 pre, 
 blockquote, 
@@ -524,7 +525,7 @@ form,
 .ss-custom-select {
     margin-bottom: 3.2rem;
 }
-
+*/
 
 
 /* ===================================================================
@@ -544,7 +545,7 @@ form,
     overflow: hidden;
 }
 
-.no-js #preloader, .oldie #preloader {
+.no-js #preloader, .oldie #preloader { 
     display: none;
 }
 
@@ -792,10 +793,11 @@ select {
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-
+/*
 textarea {
     min-height: 25.6rem;
 }
+*/
 /*
 input[type="email"]:focus, 
 input[type="number"]:focus, 
@@ -2479,7 +2481,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 .commentlist>.comment {
     position: relative;
     list-style: none;
-    margin: 0;
+    /*margin: 0;*/
     padding: 2rem 0 0 0;
     padding-left: 14%;
 }
@@ -2552,11 +2554,11 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 /* comments form
  * ---------------------------- */
 .comments-wrap .comment-respond {
-    margin-top: 6.4rem;
+    margin-top: 10px;
 }
 
 .comment-respond form {
-    padding-top: 4rem;
+    padding-top: 10px;
 }
 
 /* ------------------------------------------------------------------- 
@@ -2605,7 +2607,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 
 @media screen and (max-width:400px) {
     .comments-wrap, .comment-respond form {
-        padding-top: 3.2rem;
+        padding-top: 10px;
     }
     .comment ul.children li {
         border-left: none;

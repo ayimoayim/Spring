@@ -34,10 +34,207 @@
 					form.submit();
 				}
 			}
+			
+			var addParentComment = function() {
+				var form = $("#parentForm");
+				var input = document.createElement('input');
+				input.setAttribute('type','hidden');
+				input.setAttribute('name','depth');
+				input.setAttribute('value','1');
+				
+				form.append(input);
+				
+				$.ajax({
+					type:'POST',
+					url:'/comment/insert',
+					dataType : 'json',
+					data : form.serialize(),
+					success : function(data){
+						addHtml(data);
+					}
+				});
+			}
+			
+			var addChildComment = function(button) {
+				var form = $("#childForm");
+				var input = document.createElement('input');
+				input.setAttribute('type','hidden');
+				input.setAttribute('name','depth');
+				input.setAttribute('value','2');
+				
+				form.append(input);
+				
+				var board_no = form.find("#board_no");
+				var parent_no = form.find("#parent_no");
+				var content = form.find("#content");
+				
+				var parentComment = $(button).parents('.thread-alt.depth-1.comment');
+				
+				$.ajax({
+					type:'POST',
+					url:'/comment/insert',
+					data : form.serialize(),
+					dataType: 'json',
+					success : function(data){
+						addHtml(data);
+					}
+				});
+			}
+			
+			function addHtml(data){
+				var html = "";
+				var ol = $(".commentlist");
+				data.forEach(function (item) {
+					var reg_no = item.reg_no;
+					var reg_dt = item.reg_dt;
+					var board_no = item.board_no;
+ 					var name = item.name;
+					var content = item.content;
+					var depth = item.depth;
+					
+					if(depth == 1){
+						
+						html += "<li class='thread-alt depth-1 comment'>";
+						
+						html += "<div class='comment__avatar'>";
+						html += "<img class='avatar' src='/resources/images/avatars/user-01.jpg' alt='' width='50' height='50'>";
+						html += "</div>"
+						
+						html += "<div class='comment__content'>";
+						html += "<div class='comment__info'>";
+						
+						html += "<div class='comment__author'>"+name+"</div>";
+						
+						html += "<div class='comment__meta'>";
+						html += "<div class='comment__time'>"+reg_dt+"</div>";
+						html += "<div class='comment__reply'>";
+						html += "<a class='comment-reply-link' onclick='commentDiv(this,"+reg_no+");'>답글쓰기</a>";
+						html += "<a class='comment-reply-link'>수정</a>";
+						html += "<a class='comment-reply-link'>삭제</a>";
+						
+						html += "</div>"
+						html += "</div>"
+						html += "</div>"
+						
+						html += "<div class='comment__text'>";
+						html += "<p>"+content+"</p>";
+						
+						
+						html += "</div>"
+						html += "</div>"
+						
+						
+						data.forEach(function (item2) {
+							var reg_no2 = item2.reg_no;
+							var reg_dt2 = item2.reg_dt;
+							var board_no2 = item2.board_no;
+							var parent_no = item2.parent_no;
+		 					var name2 = item2.name;
+							var content2 = item2.content;
+							var depth2 = item2.depth;
+							
+							if(depth2 == 2 && reg_no == parent_no){
+								html += "<ul class='children'>";
+								html += "<li class='depth-2 comment'>";
+								
+								html += "<div class='comment__avatar'>";
+								html += "<img class='avatar' src='/resources/images/avatars/user-01.jpg' alt='' width='50' height='50'>";
+								html += "</div>"
+								
+								html += "<div class='comment__content'>";
+								html += "<div class='comment__info'>";
+								
+								html += "<div class='comment__author'>"+name2+"</div>";
+								
+								html += "<div class='comment__meta'>";
+								html += "<div class='comment__time'>"+reg_dt2+"</div>";
+								html += "<div class='comment__reply'>";
+								html += "<a class='comment-reply-link'>수정</a>";
+								html += "<a class='comment-reply-link'>삭제</a>";
+								html += "</div>"
+								html += "</div>";
+								
+								
+								html += "</div>";
+								
+								html += "<div class='comment__text'>";
+								html += "<p>"+content2+"</p>";
+								html += "</div>";
+								
+								html += "</div>";
+								
+								html += "</li>";
+								html += "</ul>";
+							}
+						});
+						
+						html += "</li>";
+					}
+				});
+				ol.empty();
+				ol.append(html);
+			}
+			
+			var commentDiv = function(reply,parent) {
+				var parentComment = $(reply).parents('.thread-alt.depth-1.comment');
+				$('.commentlist .comment-respond').remove();
+				var html = "";
+				
+				html +="<div class='comment-respond'>";
+				html +="<div id='respond'>";
+				html +="<form name='childForm' id='childForm' method='post' action='/comment/insert'>";
+				html +="<input name='board_no' id='board_no' value='${boardInfo.reg_no }' type='hidden'>";
+				html +="<input name='parent_no' id='parent_no' value='"+parent+"' type='hidden'>";
+				
+				<sec:authorize access="isAnonymous()">
+					html += "<div class='form-field'>";
+					html += "<input name='name' id='name' placeholder='Your Name' type='text'>";
+					html += "<input name='password' id='password' placeholder='Your Password' type='password'>";
+					html += "</div>"
+				</sec:authorize>
+				html += "<div class='message form-field'>"
+				html += "<textarea name='content' id='content' class='h-full-width' placeholder='Your Message' cols rows='4'></textarea>";
+				html += "<button onclick='addChildComment(this);' type='button' class='button button-success'>입력</button>";
+				html += "</div>"
+				html +="</form>";
+				html +="</div>";
+				html +="</div>";
+				
+				parentComment.append(html);
+			}
+			
 		</script>
 		
 	</head>
-	
+	<style>
+		.depth-1{
+			margin-bottom:5px;
+		}
+		.comment__reply{
+			cursor:pointer;
+		}
+		#comments{
+			padding-bottom:0px;
+		}
+		#respond{
+    		background-color: rgba(0,0,0,.02);
+    		padding-left: 15px;
+    		padding-right: 15px;
+    		padding-top: 10px;
+		}
+		#name, #password{
+			width:140px;
+			height:52px;
+			margin-right: 6px;
+		}
+		#content{
+			display: block;
+	    	margin-bottom: 5px;
+	    	padding: 10px;
+	    	resize: none;
+	    	box-sizing: border-box;
+		}
+	</style>
 	<body id="top">
 		<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 		<!-- Content -->
@@ -93,161 +290,89 @@
 	        
 	                        <!-- START commentlist -->
 	                        <ol class="commentlist">
-	        
-	                            <li class="depth-1 comment">
-	        
-	                                <div class="comment__avatar">
-	                                    <img class="avatar" src="images/avatars/user-01.jpg" alt="" width="50" height="50">
-	                                </div>
-	        
-	                                <div class="comment__content">
-	        
-	                                    <div class="comment__info">
-	                                        <div class="comment__author">Itachi Uchiha</div>
-	        
-	                                        <div class="comment__meta">
-	                                            <div class="comment__time">July 12, 2019</div>
-	                                            <div class="comment__reply">
-	                                                <a class="comment-reply-link" href="#0">Reply</a>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-	        
-	                                    <div class="comment__text">
-	                                    <p>Adhuc quaerendum est ne, vis ut harum tantas noluisse, id suas iisque mei. Nec te inani ponderum vulputate,
-	                                    facilisi expetenda has et. Iudico dictas scriptorem an vim, ei alia mentitum est, ne has voluptua praesent.</p>
-	                                    </div>
-	        
-	                                </div>
-	        
-	                            </li> <!-- end comment level 1 -->
-	        
-	                            <li class="thread-alt depth-1 comment">
-	        
-	                                <div class="comment__avatar">
-	                                    <img class="avatar" src="images/avatars/user-04.jpg" alt="" width="50" height="50">
-	                                </div>
-	        
-	                                <div class="comment__content">
-	        
-	                                    <div class="comment__info">
-	                                        <div class="comment__author">John Doe</div>
-	        
-	                                        <div class="comment__meta">
-	                                            <div class="comment__time">July 12, 2019</div>
-	                                            <div class="comment__reply">
-	                                                <a class="comment-reply-link" href="#0">Reply</a>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-	        
-	                                    <div class="comment__text">
-	                                    <p>Sumo euismod dissentiunt ne sit, ad eos iudico qualisque adversarium, tota falli et mei. Esse euismod
-	                                    urbanitas ut sed, et duo scaevola pericula splendide. Primis veritus contentiones nec ad, nec et
-	                                    tantas semper delicatissimi.</p>
-	                                    </div>
-	        
-	                                </div>
-	        
-	                                <ul class="children">
-	        
-	                                    <li class="depth-2 comment">
-	        
-	                                        <div class="comment__avatar">
-	                                            <img class="avatar" src="images/avatars/user-03.jpg" alt="" width="50" height="50">
-	                                        </div>
-	        
-	                                        <div class="comment__content">
-	        
-	                                            <div class="comment__info">
-	                                                <div class="comment__author">Kakashi Hatake</div>
-	        
-	                                                <div class="comment__meta">
-	                                                    <div class="comment__time">July 12, 2019</div>
-	                                                    <div class="comment__reply">
-	                                                        <a class="comment-reply-link" href="#0">Reply</a>
-	                                                    </div>
-	                                                </div>
-	                                            </div>
-	        
-	                                            <div class="comment__text">
-	                                                <p>Duis sed odio sit amet nibh vulputate
-	                                                cursus a sit amet mauris. Morbi accumsan ipsum velit. Duis sed odio sit amet nibh vulputate
-	                                                cursus a sit amet mauris</p>
-	                                            </div>
-	        
-	                                        </div>
-	        
-	                                        <ul class="children">
-	        
-	                                            <li class="depth-3 comment">
-	        
-	                                                <div class="comment__avatar">
-	                                                    <img class="avatar" src="images/avatars/user-04.jpg" alt="" width="50" height="50">
-	                                                </div>
-	        
-	                                                <div class="comment__content">
-	        
-	                                                    <div class="comment__info">
-	                                                        <div class="comment__author">John Doe</div>
-	        
-	                                                        <div class="comment__meta">
-	                                                            <div class="comment__time">july 11, 2019</div>
-	                                                            <div class="comment__reply">
-	                                                                <a class="comment-reply-link" href="#0">Reply</a>
-	                                                            </div>
-	                                                        </div>
-	                                                    </div>
-	        
-	                                                    <div class="comment__text">
-	                                                    <p>Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est
-	                                                    etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</p>
-	                                                    </div>
-	        
-	                                                </div>
-	        
-	                                            </li>
-	        
-	                                        </ul>
-	        
-	                                    </li>
-	        
-	                                </ul>
-	        
-	                            </li> <!-- end comment level 1 -->
-	        
-	                            <li class="depth-1 comment">
-	        
-	                                <div class="comment__avatar">
-	                                    <img class="avatar" src="images/avatars/user-02.jpg" alt="" width="50" height="50">
-	                                </div>
-	        
-	                                <div class="comment__content">
-	        
-	                                    <div class="comment__info">
-	                                        <div class="comment__author">Shikamaru Nara</div>
-	        
-	                                        <div class="comment__meta">
-	                                            <div class="comment__time">July 11, 2019</div>
-	                                            <div class="comment__reply">
-	                                                <a class="comment-reply-link" href="#0">Reply</a>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-	        
-	                                    <div class="comment__text">
-	                                    <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem.</p>
-	                                    </div>
-	        
-	                                </div>
-	        
-	                            </li>  <!-- end comment level 1 -->
-	        
+	                        	<c:forEach var="commentVO" items="${commentList}">
+	                        		<c:if test="${1 eq  commentVO.depth}">
+	                        			<li class="thread-alt depth-1 comment">
+			                                <div class="comment__avatar">
+			                                    <img class="avatar" src="/resources/images/avatars/user-01.jpg" alt="" width="50" height="50">
+			                                </div>
+			                                <div class="comment__content">
+			                                    <div class="comment__info">
+			                                        <div class="comment__author">${commentVO.name}</div>
+			        
+			                                        <div class="comment__meta">
+			                                        	<fmt:formatDate var="date" value="${commentVO.reg_dt}" pattern="yyyy-MM-dd HH:mm:ss"/>
+			                                            <div class="comment__time">${date}</div>
+			                                            <div class="comment__reply"">
+			                                                <a class="comment-reply-link">수정</a>
+			                                                <a class="comment-reply-link">삭제</a>
+			                                                <a class="comment-reply-link" onclick="commentDiv(this,${commentVO.reg_no});">답글쓰기</a>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			        
+			                                    <div class="comment__text">
+			                                    	<p>${commentVO.content}</p>
+			                                    </div>
+			                                </div>
+			                                <c:forEach var="commentVO2" items="${commentList}">
+		                               			<c:if test="${2 eq  commentVO2.depth and commentVO.reg_no eq  commentVO2.parent_no}">
+				                        			<ul class="children">
+					                                    <li class="depth-2 comment">
+					                                        <div class="comment__avatar">
+					                                            <img class="avatar" src="/resources/images/avatars/user-02.jpg" alt="" width="50" height="50">
+					                                        </div>
+					                                        <div class="comment__content">
+					                                            <div class="comment__info">
+					                                                <div class="comment__author">${commentVO2.name}</div>
+					                                                <div class="comment__meta">
+					                                                	<fmt:formatDate var="date2" value="${commentVO2.reg_dt}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					                                                    <div class="comment__time">${date2}</div>
+					                                                    <div class="comment__reply"">
+							                                                <a class="comment-reply-link">수정</a>
+							                                                <a class="comment-reply-link">삭제</a>
+							                                            </div>
+					                                                </div>
+					                                            </div>
+					                                            <div class="comment__text">
+					                                                <p>${commentVO2.content}</p>
+					                                            </div>
+					                                        </div>
+				                                    	</li>
+				                                	</ul>
+				                        		</c:if>
+	                               			</c:forEach>
+	                               		</li>
+	                        		</c:if>
+	                        	</c:forEach>
 	                        </ol>
 	                        <!-- END commentlist -->
 	
                     	</div> <!-- end comments -->
-	                </div> <!-- end comments-wrap -->
+                    	
+                    	<div class="comment-respond">
+	                        <!-- START respond -->
+	                        <div id="respond">
+	                            <form name="parentForm" id="parentForm" method="post" action="/comment/insert">
+            						<input name="board_no" id="board_no" value="${boardInfo.reg_no }" type="hidden">
+            						<sec:authorize access="isAnonymous()">
+            							<div class="form-field">
+                                        	<input name="name" id="name" class="h-full-width" placeholder="Your Name" type="text">
+	                                        <input name="password" id="password" class="h-full-width" placeholder="Your Password" type="password">
+                                    	</div>
+            						</sec:authorize>
+            
+                                    <div class="message form-field">
+                                        <textarea name="content" id="content" class="h-full-width" placeholder="Your Message" cols rows="4"></textarea>
+            							<button onclick="addParentComment();" type="button" class="button button-success">입력</button>
+                                    </div>
+            
+	                            </form> <!-- end form -->
+	                        </div>
+	                        <!-- END respond-->
+                    	</div> 
+                    	<!-- end comment-respond -->
+                	</div> <!-- end comments-wrap -->
 	            </div> <!-- end main -->
 			</div>
 		</div> 

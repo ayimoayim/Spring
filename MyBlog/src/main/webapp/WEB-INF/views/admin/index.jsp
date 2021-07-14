@@ -34,12 +34,12 @@
 		<!-- Content -->
 		<div class="s-content">
 			<div class="row">
-				<div class="column large-6 tab-full">
+				<div class="column large-4 tab-full">
 					<div style="width:216px;" id="sidebar" class="s-content__sidebar">
 						<div class="menu">
 							<div class="sub_menu">
 								<ul class="menu_list">
-									<li><a>TEST1</a></li>
+									<li><a href="/admin/post/editor">글쓰기</a></li>
 									<li><a>TEST1</a></li>
 									<li><a>TEST1</a></li>
 								</ul>
@@ -57,6 +57,13 @@
 						</div>
 	               
 	       			</div> <!-- end sidebar -->
+          		</div>
+          		<div class="column large-8 tab-full">
+          			<div class="list">
+          				<ul>
+          					
+          				</ul>
+          			</div>
           		</div>
 			</div>
 		</div> <!-- end content-wrap -->
