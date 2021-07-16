@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.my.blog.Post.dao.PostDAO">
+	<select id="selectPostList" parameterType="com.my.blog.Post.vo.PostVO" resultType="com.my.blog.Post.vo.PostVO">
+		SELECT
+			po.REG_NO,
+			po.REG_DT,
+			TITLE,
+			CONTENT,
+			usr.NAME AS name
+		FROM
+			POST po, user usr
+		WHERE
+			po.USER_NO = usr.REG_NO
+		AND
+			po.DEL_FL != 9
+	</select>
+	
+	<select id="selectPostInfo" parameterType="com.my.blog.Post.vo.PostVO" resultType="com.my.blog.Post.vo.PostVO">
+		SELECT
+			po.REG_NO,
+			po.REG_DT,
+			TITLE,
+			CONTENT,
+			usr.REG_NO AS user_no,
+			usr.NAME AS name
+		FROM
+			POST po, user usr
+		WHERE
+			po.USER_NO = usr.REG_NO
+		AND
+			po.REG_NO = #{reg_no}
+	</select>
+	
+	<insert id="insertPost" parameterType="com.my.blog.Post.vo.PostVO">
+		INSERT INTO POST(USER_NO, TITLE, CONTENT, PUBLIC_FL, DEL_FL)
+		VALUES 
+			(#{user_no},#{title},#{content},#{public_fl},0)
+	</insert>
+	
+	<update id="updatePost" parameterType="com.my.blog.Post.vo.PostVO">
+		UPDATE
+			POST
+		SET
+			TITLE = #{title},
+			CONTENT = #{content},
+			EDIT_DT = NOW()
+		WHERE
+			REG_NO = #{reg_no}
+	</update>
+	
+	<update id="deletePost" parameterType="com.my.blog.Post.vo.PostVO">
+		UPDATE
+			POST
+		SET
+			DEL_FL = 9
+		WHERE
+			REG_NO = #{reg_no}
+	</update>
+</mapper>

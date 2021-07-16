@@ -6,8 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.my.blog.board.dao.BoardDAO;
-import com.my.blog.board.vo.BoardVO;
+import com.my.blog.post.dao.PostDAO;
+import com.my.blog.post.vo.PostVO;
 import com.my.blog.security.CustomUserDetails;
 import com.my.blog.user.dao.UserDAO;
 
