@@ -6,7 +6,7 @@ public class CommentVO {
 	private String reg_no;
 	private Timestamp reg_dt;
 	private String user_no;
-	private String board_no;
+	private String post_no;
 	private String parent_no;
 	private String depth;
 	private String seq;
@@ -36,11 +36,11 @@ public class CommentVO {
 	public void setUser_no(String user_no) {
 		this.user_no = user_no;
 	}
-	public String getBoard_no() {
-		return board_no;
+	public String getPost_no() {
+		return post_no;
 	}
-	public void setBoard_no(String board_no) {
-		this.board_no = board_no;
+	public void setPost_no(String post_no) {
+		this.post_no = post_no;
 	}
 	public String getParent_no() {
 		return parent_no;

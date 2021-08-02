@@ -13,7 +13,7 @@ public class PostVO {
 	private String views_cnt;
 	private String recommend_cnt;
 	private String public_fl;
-	private String edit_dt;
+	private Timestamp edit_dt;
 	private String del_fl;
 
 	
@@ -77,10 +77,10 @@ public class PostVO {
 	public void setPublic_fl(String public_fl) {
 		this.public_fl = public_fl;
 	}
-	public String getEdit_dt() {
+	public Timestamp getEdit_dt() {
 		return edit_dt;
 	}
-	public void setEdit_dt(String edit_dt) {
+	public void setEdit_dt(Timestamp edit_dt) {
 		this.edit_dt = edit_dt;
 	}
 	public String getDel_fl() {

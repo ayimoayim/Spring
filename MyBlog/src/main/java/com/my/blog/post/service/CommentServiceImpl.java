@@ -16,8 +16,8 @@ public class CommentServiceImpl implements CommentService{
 	private CommentDAO commentDAO;
 
 	@Override
-	public List<CommentVO> selectCommentList() {
-		return commentDAO.selectCommentList();
+	public List<CommentVO> selectCommentList(int id) {
+		return commentDAO.selectCommentList(id);
 	}
 	
 	@Override

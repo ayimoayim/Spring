@@ -7,11 +7,11 @@ import com.my.blog.post.vo.PostVO;
 public interface PostService {
 	public List<PostVO> selectPostList();
 	
-	public PostVO selectPostInfo(PostVO postVO);
+	public PostVO selectPostInfo(int id);
 	
 	public int insertPost(PostVO postVO);
 	
 	public int updatePost(PostVO postVO);
 	
-	public int deletePost(PostVO postVO);
+	public int deletePost(int id);
 }

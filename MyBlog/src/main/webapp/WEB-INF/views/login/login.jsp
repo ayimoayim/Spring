@@ -16,14 +16,11 @@
 	<script src="resources/js/my-login.js"></script>
 	
 	<script type="text/javascript">
-		$(document).ready(function(){
-	        var userId = getCookie("cookieUserId");
-	        $("input[name='loginId']").val(userId);
-	         
-	        if($("input[name='loginId']").val() != ""){ // Cookie에 만료되지 않은 아이디가 있어 입력됬으면 체크박스가 체크되도록 표시
-	            $("input[name='customCheck']").attr("checked", true);
-	        }
-	    })
+		function login(){
+			var token = response.token;  
+			localStorage.setItem("token",token);
+			
+		}
 	</script> 
 </head>
 <body class="my-login-page">
@@ -37,10 +34,10 @@
 					<div class="card fat">
 						<div class="card-body">
 							<h4 class="card-title">Login</h4>
-							<form action="/login-process" method="POST" class="my-login-validation" novalidate="">
+							<form action="/api/authenticate" method="POST" class="my-login-validation" novalidate="">
 								<div class="form-group">
 									<label for="id">E-Mail Address</label>
-									<input id="id" type="text" class="form-control" name="id" value="" required autofocus>
+									<input id="email" type="text" class="form-control" name="email" value="" required autofocus>
 									<div class="invalid-feedback">
 										Email is invalid
 									</div>
@@ -52,7 +49,7 @@
 											Forgot Password?
 										</a>
 									</label>
-									<input id="pw" type="password" class="form-control" name="pw" required data-eye>
+									<input id="password" type="password" class="form-control" name="password" required data-eye>
 								    <div class="invalid-feedback">
 								    	Password is required
 							    	</div>

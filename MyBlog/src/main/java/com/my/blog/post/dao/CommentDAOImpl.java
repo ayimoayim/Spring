@@ -16,22 +16,22 @@ public class CommentDAOImpl implements CommentDAO{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<CommentVO> selectCommentList() {
-		return sqlSession.selectList("com.my.blog.board.dao.CommentDAO.selectCommentList");
+	public List<CommentVO> selectCommentList(int id) {
+		return sqlSession.selectList("com.my.blog.post.dao.CommentDAO.selectCommentList",id);
 	}
 	
 	@Override
 	public CommentVO selectComment(CommentVO commentVO) {
-		return sqlSession.selectOne("com.my.blog.board.dao.CommentDAO.selectComment",commentVO);
+		return sqlSession.selectOne("com.my.blog.post.dao.CommentDAO.selectComment",commentVO);
 	}
 
 	@Override
 	public int selectCommentSeq(CommentVO commentVO) {
-		return sqlSession.selectOne("com.my.blog.board.dao.CommentDAO.selectCommentSeq",commentVO);
+		return sqlSession.selectOne("com.my.blog.post.dao.CommentDAO.selectCommentSeq",commentVO);
 	}
 	
 	@Override
 	public int insertComment(CommentVO commentVO) {
-		return sqlSession.insert("com.my.blog.board.dao.CommentDAO.insertComment",commentVO);
+		return sqlSession.insert("com.my.blog.post.dao.CommentDAO.insertComment",commentVO);
 	}
 }

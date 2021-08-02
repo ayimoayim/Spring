@@ -11,6 +11,11 @@
 		<title>Insert title here</title>
 		<%@ include file="/WEB-INF/views/layout/common.jsp"%>
 		
+		<style>
+			.entry{
+				border-bottom: 1px solid #ebebeb;
+			}
+		</style>
 	</head>
 	<body id="top">
 		
@@ -20,30 +25,31 @@
 		<div class="s-content">
 			<div class="row">
 		    	<div id="main" class="s-content__main large-8 column">
-					<c:forEach var="boardVO" items="${boardList}">
+					<c:forEach var="postVO" items="${postList}">
 						<article class="entry">
 		                	<header class="entry__header">
 		                    	<h2 class="entry__title h1">
-		                        	<a href="/post/info?reg_no=${boardVO.reg_no}" title="">${boardVO.title}</a>
+		                        	<a href="/post/${postVO.reg_no}" title="">${postVO.title}</a>
 		                      	</h2>
 		                   		<div class="entry__meta">
 		                      		<ul>
-		                          		<fmt:formatDate var="date" value="${boardVO.reg_dt}" pattern="yyyy-MM-dd"/>
+		                          		<fmt:formatDate var="date" value="${postVO.reg_dt}" pattern="yyyy-MM-dd"/>
 		                              	<li>${date}</li>
-		                              	<li>${boardVO.name}</li>
+		                              	<li>${postVO.name}</li>
 		                          	</ul>
 		                      	</div>
 		                  	</header>
 		                  	<div class="entry__content">
 		                     	<p>
-		                      		${boardVO.content}
+		                      		${postVO.content}
 		                      	</p>
 		                  	</div> 
 		           		</article> 
-		           		<!-- end entry -->
 					</c:forEach>
+					
 		       	</div> <!-- end main -->
 		
+				<!--
 		        <div id="sidebar" class="s-content__sidebar large-4 column">
 		
 		            <div class="widget widget--search">
@@ -101,7 +107,6 @@
 		             </div>
 		            
 		        </div> <!-- end sidebar -->
-		
 		    </div> <!-- end row -->
 		
 		</div> <!-- end content-wrap -->

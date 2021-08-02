@@ -13,13 +13,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
 	private UserDetailsService userDetailService;
-	
 	@SuppressWarnings("null")
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String id = (String)authentication.getPrincipal();
 		String password = (String)authentication.getCredentials();
-		CustomUserDetails userDetails  = (CustomUserDetails) userDetailService.loadUserByUsername(id);
+		UserDetails userDetails  = userDetailService.loadUserByUsername(id);
 		if(userDetails == null || !passwordCheck(password,userDetails.getPassword()) || !userDetails.isEnabled()) {
 			throw new BadCredentialsException("아이디 또는 비밀번호를 확인해주세요.");
 		}

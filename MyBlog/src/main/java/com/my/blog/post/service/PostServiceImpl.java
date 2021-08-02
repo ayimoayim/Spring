@@ -21,8 +21,8 @@ public class PostServiceImpl implements PostService{
 	}
 	
 	@Override
-	public PostVO selectPostInfo(PostVO postVO) {
-		return postDAO.selectPostInfo(postVO);
+	public PostVO selectPostInfo(int id) {
+		return postDAO.selectPostInfo(id);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class PostServiceImpl implements PostService{
 	}
 	
 	@Override
-	public int deletePost(PostVO postVO) {
-		return postDAO.deletePost(postVO);
+	public int deletePost(int id) {
+		return postDAO.deletePost(id);
 	}
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.my.blog.POST.dao.CommentDAO">
-	<select id="selectCommentList" parameterType="com.my.blog.post.vo.CommentVO" resultType="com.my.blog.post.vo.CommentVO">
+<mapper namespace="com.my.blog.post.dao.CommentDAO">
+	<select id="selectCommentList" parameterType="Integer" resultType="com.my.blog.post.vo.CommentVO">
 		SELECT
 			REG_NO,
 			REG_DT,
@@ -18,7 +18,7 @@
 		FROM 
 			COMMENT
 		WHERE
-			POST_NO = 2
+			POST_NO = #{id}
 		ORDER BY
 			IF(ISNULL(PARENT_NO), REG_NO, PARENT_NO), SEQ
 	</select>
@@ -38,17 +38,18 @@
 		FROM 
 			COMMENT
 		WHERE
-			POST_NO = #{POST_no}
-		AND
-			PARENT_NO = #{parent_no}
+			POST_NO = #{post_no}
+		<if test='parent_no != null'>
+ 			AND
+				PARENT_NO = #{parent_no}
+		</if>
 		AND
 			SEQ = #{seq}
-			
 	</select>
 	
 	<insert id="insertComment" parameterType="com.my.blog.post.vo.CommentVO">
 		INSERT INTO COMMENT(USER_NO, POST_NO, PARENT_NO, DEPTH, SEQ, NAME, PASSWORD, CONTENT, IP, PUBLIC_FL, DEL_FL) 
-		VALUES(#{user_no},#{POST_no},#{parent_no},#{depth},#{seq},#{name},#{password},#{content},#{ip},#{public_fl},0)
+		VALUES(#{user_no},#{post_no},#{parent_no},#{depth},#{seq},#{name},#{password},#{content},#{ip},#{public_fl},0)
 	</insert>
 	
 	<select id="selectCommentSeq" parameterType="com.my.blog.post.vo.CommentVO" resultType="Integer">
@@ -58,18 +59,14 @@
 			FROM
 				COMMENT
 			WHERE
-				POST_NO = 2
+				POST_NO = #{post_no}
 		]]>
 		
  		<choose>
 	        <when test="parent_no != null and !parent_no == ''">
 				AND
-					PARENT_NO = 1
+					PARENT_NO = #{parent_no}
 	        </when>
-	        <otherwise>
-	        	AND
-					REG_NO = 1
-	        </otherwise>
     	</choose>
     	
 		<![CDATA[

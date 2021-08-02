@@ -17,26 +17,26 @@ public class PostDAOImpl implements PostDAO{
 	
 	@Override
 	public List<PostVO> selectPostList() {
-		return sqlSession.selectList("com.my.blog.Post.dao.PostDAO.selectPostList");
+		return sqlSession.selectList("com.my.blog.post.dao.PostDAO.selectPostList");
 	}
 
 	@Override
-	public PostVO selectPostInfo(PostVO postVO) {
-		return sqlSession.selectOne("com.my.blog.Post.dao.PostDAO.selectPostInfo",postVO);
+	public PostVO selectPostInfo(int id) {
+		return sqlSession.selectOne("com.my.blog.post.dao.PostDAO.selectPostInfo",id);
 	}
 	
 	@Override
 	public int insertPost(PostVO postVO) {
-		return sqlSession.insert("com.my.blog.Post.dao.PostDAO.insertPost",postVO);
+		return sqlSession.insert("com.my.blog.post.dao.PostDAO.insertPost",postVO);
 	}
 	
 	@Override
 	public int updatePost(PostVO postVO) {
-		return sqlSession.update("com.my.blog.Post.dao.PostDAO.updatePost",postVO);
+		return sqlSession.update("com.my.blog.post.dao.PostDAO.updatePost",postVO);
 	}
 	
 	@Override
-	public int deletePost(PostVO postVO) {
-		return sqlSession.update("com.my.blog.Post.dao.PostDAO.deletePost",postVO);
+	public int deletePost(int id) {
+		return sqlSession.update("com.my.blog.post.dao.PostDAO.deletePost",id);
 	}
 }

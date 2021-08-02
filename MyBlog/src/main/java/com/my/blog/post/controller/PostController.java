@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,21 +30,29 @@ public class PostController {
 	@Resource(name = "CommentService")
 	private CommentService commentService;
 	
-	@RequestMapping("/post")
-	private String post() {
+	@RequestMapping(value = "/post", method = RequestMethod.GET)
+	private String post(Model model) {
+		
+		try {
+			List<PostVO> postList = postService.selectPostList();
+			model.addAttribute("postList",postList);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return "post/index";
 	}
 	
-	@RequestMapping("/post/info")
-	private String postInfo(HttpServletRequest request, HttpServletResponse response, Model model, PostVO boardVO) {
+	@RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
+	private String postInfo(@PathVariable int id, Model model) {
 		
 		try {
-			PostVO board = postService.selectPostInfo(boardVO);
+			PostVO postInfo = postService.selectPostInfo(id);
 			
-			List<CommentVO> commentVOs = commentService.selectCommentList();
+			List<CommentVO> commentVOs = commentService.selectCommentList(id);
 			
-			model.addAttribute("boardInfo",board);
+			model.addAttribute("postInfo",postInfo);
 			model.addAttribute("commentList",commentVOs);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -80,7 +89,7 @@ public class PostController {
 		commentVO.setPublic_fl("0");
 		commentService.insertComment(commentVO);
 		
-		List<CommentVO> commentVOs = commentService.selectCommentList();
+		List<CommentVO> commentVOs = commentService.selectCommentList(1);
 
 		return commentVOs;
 	}
@@ -95,7 +104,7 @@ public class PostController {
 			String userNo = customUserDetails.getReg_no();
 			if(regNo != null && !regNo.equals("")) {
 				boardVO.setReg_no(regNo);
-				PostVO board = postService.selectPostInfo(boardVO);
+				PostVO board = postService.selectPostInfo(1);
 				if(board.getUser_no().equals(userNo)) {
 					model.addAttribute("boardInfo",board);
 					model.addAttribute("viewType","postUpdate");
@@ -143,9 +152,9 @@ public class PostController {
 			
 			if(regNo != null && !regNo.equals("")) {
 				boardVO.setReg_no(regNo);
-				PostVO board = postService.selectPostInfo(boardVO);
+				PostVO board = postService.selectPostInfo(1);
 				if(board.getUser_no().equals(userNo)) {
-					postService.deletePost(boardVO);
+					postService.deletePost(1);
 					model.addAttribute("msg","글을 삭제 했습니다.");
 					model.addAttribute("url","/post");
 				}else {
